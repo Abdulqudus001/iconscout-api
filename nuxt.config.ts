@@ -14,12 +14,12 @@ export default defineNuxtConfig({
     '~/assets/scss/main.scss',
   ],
   modules: [
-    'nuxt-svgo',
     '@nuxt/eslint',
+    'nuxt-icon',
   ],
   eslint: {
     config: {
       stylistic: true, // <---
     },
   },
-})
+});

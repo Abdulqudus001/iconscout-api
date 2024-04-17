@@ -1,6 +1,6 @@
 <template>
   <div>
-    Hello layout
+    <BaseNavbar />
     <slot />
   </div>
 </template>

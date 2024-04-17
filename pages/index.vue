@@ -1,3 +1,5 @@
 <template>
-  Lottie Animations
+  <div>
+    Lottie Animations
+  </div>
 </template>

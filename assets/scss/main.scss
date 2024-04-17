@@ -1,3 +1,5 @@
+@import 'bootstrap/scss/bootstrap';
+
 @font-face {
   font-family: 'Averta';
   src: url('/fonts/AvertaStd-Light.ttf') format('truetype');
@@ -15,7 +17,7 @@
 
 @font-face {
   font-family: 'Averta';
-  src: url('/fonts/AvertaStd-Semibold.ttf') format('truetype');
+  src: url('/fonts/AvertaStd-Bold.ttf') format('truetype');
   font-weight: 600;
   font-display: swap;
 }
@@ -27,6 +29,25 @@
   font-display: swap;
 }
 
+:root {
+  font-size: 16px;
+}
+
 body {
   font-family: 'Averta', sans-serif;
+  margin: 0;
+  color: $text-black;
+}
+
+a {
+  color: $text-black;
+  text-decoration: none;
+
+  &:hover {
+    color: $text-blue;
+  }
+}
+
+.rotate-180 {
+  transform: rotate(180deg);
 }
