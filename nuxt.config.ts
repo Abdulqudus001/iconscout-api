@@ -5,12 +5,21 @@ export default defineNuxtConfig({
     css: {
       preprocessorOptions: {
         scss: {
-          additionalData: '@use "~/assets/scss/_partials.scss" as *;'
-        }
-      }
-    }
+          additionalData: '@use "~/assets/scss/_partials.scss" as *;',
+        },
+      },
+    },
   },
   css: [
-    '~/assets/scss/main.scss'
-  ]
+    '~/assets/scss/main.scss',
+  ],
+  modules: [
+    'nuxt-svgo',
+    '@nuxt/eslint',
+  ],
+  eslint: {
+    config: {
+      stylistic: true, // <---
+    },
+  },
 })
