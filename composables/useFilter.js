@@ -12,22 +12,14 @@ export default function () {
     return params === 'all' ? null : params
   }
 
-  const asset = routeMatcher[route.params.slug] || null
-  const price = getQueryParams(route.query.price)
+  const assetType = computed(() => routeMatcher[route.params.slug] || 'icon')
 
-  const changeFilterRoute = (asset, price, sort) => {
-    navigateTo({
-      path: `/${asset}`,
-      query: {
-        price: price || null,
-        sort: sort || null
-      }
-    })
-  }
+  const price = computed(() => getQueryParams(route.query.price))
+  const sortBy = computed(() => getQueryParams(route.query.sort))
 
   return {
-    asset,
+    assetType,
     price,
-    changeFilterRoute
+    sortBy,
   }
 }

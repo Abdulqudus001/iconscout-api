@@ -13,10 +13,7 @@ export default defineNuxtConfig({
   css: [
     '~/assets/scss/main.scss',
   ],
-  modules: [
-    '@nuxt/eslint',
-    'nuxt-icon',
-  ],
+  modules: ['@nuxt/eslint', 'nuxt-icon', "@nuxt/image"],
   eslint: {
     config: {
       stylistic: true, // <---

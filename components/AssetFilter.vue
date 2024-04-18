@@ -84,7 +84,7 @@ const getLinkWithQueryParams = (path) => {
     max-width: 16.25rem;
     border-right: 1px solid $bg-grey-1;
     border-bottom: 1px solid $bg-grey-1;
-    margin-right: 2.75rem;
+    margin-right: 1.5rem;
     flex-grow: 1;
   }
 

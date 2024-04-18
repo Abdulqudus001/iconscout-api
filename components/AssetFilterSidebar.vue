@@ -13,7 +13,7 @@ const assetFilter = reactive({
   view: 'individual'
 })
 
-const { changeFilterRoute } = useFilter()
+const { changePriceType, changeSortType } = useFilter()
 const route = useRoute()
 
 watch(() => assetFilter.assetType, (asset) => {
@@ -25,6 +25,7 @@ watch(() => assetFilter.assetType, (asset) => {
 })
 
 watch(() => assetFilter.price, (price) => {
+  // changePriceType(price)
   navigateTo({
     path: route.fullPath,
     query: {
@@ -35,6 +36,7 @@ watch(() => assetFilter.price, (price) => {
 })
 
 watch(() => assetFilter.sortBy, (sortBy) => {
+  // changeSortType(sortBy)
   navigateTo({
     path: route.fullPath,
     query: {
@@ -50,10 +52,12 @@ if (route.params.slug) {
 }
 
 if (route.query.price) {
+  // changePriceType(route.query.price)
   assetFilter.price = route.query.price
 }
 
 if (route.query.sort) {
+  // changeSortType(route.query.sort)
   assetFilter.sortBy = route.query.sort
 }
 
@@ -178,8 +182,8 @@ const isExclusiveChecked = ref(false);
 
 <style lang="scss" scoped>
 .sidebar {
-  max-width: 16.25rem;
-  flex-grow: 1;
+  width: 16.25rem;
+  flex-shrink: 0;
   border-right: 1px solid $bg-grey-1;
   overflow-y: auto;
   position: sticky;
