@@ -3,8 +3,8 @@ const checkedModel = defineModel();
 </script>
 <template>
   <div class="switch">
-    <input :id="`input-${$attrs.id}`" type="checkbox" v-model="checkedModel">
-    <label :for="`input-${$attrs.id}`">
+    <input :id="`input-${$attrs.name}-${$attrs.id}`" type="checkbox" v-model="checkedModel">
+    <label :for="`input-${$attrs.name}-${$attrs.id}`">
       <template v-if="$slots.label">
         <slot name="label" />
       </template>

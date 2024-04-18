@@ -1,4 +1,11 @@
 <script setup>
+const { assetType } = useFilter()
+
+// const { data, status } = await useFetch('https://api.iconscout.com/v3/search', {
+//   headers: {
+//     'Client-ID': '214567553662354'
+//   },
+// })
 
 </script>
 

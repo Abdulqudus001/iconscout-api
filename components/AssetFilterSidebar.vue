@@ -3,15 +3,60 @@ const assetFilterDropdown = reactive({
   assetType: true,
   sortBy: true,
   price: true,
-  view: true,
+  view: false,
 })
 
 const assetFilter = reactive({
   assetType: 'all',
-  sortBy: 'featured',
+  sortBy: 'relevant',
   price: 'free',
   view: 'individual'
 })
+
+const { changeFilterRoute } = useFilter()
+const route = useRoute()
+
+watch(() => assetFilter.assetType, (asset) => {
+  const assetType = asset === 'all' ? '' : asset
+  navigateTo({
+    path: `/${assetType}`,
+    query: route.query
+  })
+})
+
+watch(() => assetFilter.price, (price) => {
+  navigateTo({
+    path: route.fullPath,
+    query: {
+      ...route.query,
+      price,
+    }
+  })
+})
+
+watch(() => assetFilter.sortBy, (sortBy) => {
+  navigateTo({
+    path: route.fullPath,
+    query: {
+      ...route.query,
+      sort: sortBy,
+    }
+  })
+})
+
+// Change reactive obj based on route
+if (route.params.slug) {
+  assetFilter.assetType = route.params.slug
+}
+
+if (route.query.price) {
+  assetFilter.price = route.query.price
+}
+
+if (route.query.sort) {
+  assetFilter.sortBy = route.query.sort
+}
+
 const isExclusiveChecked = ref(false);
 </script>
 
@@ -41,13 +86,13 @@ const isExclusiveChecked = ref(false);
           <BaseRadio name="assetType" value="all" v-model="assetFilter.assetType">
             All asset
           </BaseRadio>
-          <BaseRadio name="assetType" value="3d" v-model="assetFilter.assetType">
+          <BaseRadio name="assetType" value="3d-illustrations" v-model="assetFilter.assetType">
             3D Illustrations
           </BaseRadio>
           <BaseRadio name="assetType" value="animations" v-model="assetFilter.assetType">
             Lottie Animations
           </BaseRadio>
-          <BaseRadio name="assetType" value="illustations" v-model="assetFilter.assetType">
+          <BaseRadio name="assetType" value="illustrations" v-model="assetFilter.assetType">
             Illustrations
           </BaseRadio>
           <BaseRadio name="assetType" value="icons" v-model="assetFilter.assetType">
@@ -122,8 +167,8 @@ const isExclusiveChecked = ref(false);
           <BaseRadio name="sortBy" value="latest" v-model="assetFilter.sortBy">
             Latest
           </BaseRadio>
-          <BaseRadio name="sortBy" value="featured" v-model="assetFilter.sortBy">
-            Featured
+          <BaseRadio name="sortBy" value="relevant" v-model="assetFilter.sortBy">
+            Relevant
           </BaseRadio>
         </div>
       </Transition>

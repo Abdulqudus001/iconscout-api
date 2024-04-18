@@ -3,7 +3,7 @@ import { useAttrs } from 'vue'
 const radioModel = defineModel();
 const id = computed(() => {
   const attrs = useAttrs()
-  return attrs.id ? `input-${attrs.id}` : `input-${attrs.value.toLowerCase()}`
+  return attrs.id ? `input-${attrs.name}-${attrs.id}` : `input-${attrs.name}-${attrs.value.toLowerCase()}`
 })
 </script>
 <template>
