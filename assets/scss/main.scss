@@ -15,9 +15,10 @@
   font-display: swap;
 }
 
+
 @font-face {
   font-family: 'Averta';
-  src: url('/fonts/AvertaStd-Bold.ttf') format('truetype');
+  src: url('/fonts/AvertaStd-SemiBold.ttf') format('truetype');
   font-weight: 600;
   font-display: swap;
 }
@@ -47,6 +48,41 @@ a {
     color: $text-blue;
   }
 }
+
+.btn {
+  height: 44px;
+  padding: 0.625rem 1.25rem;
+  font-weight: 600;
+
+  &-primary {
+    color: $white;
+
+    &:not(:disabled):hover,
+    &:not(:disabled):focus-visible,
+    &:not(:disabled):active {
+      color: $white;
+      background-color: $primary-dark;
+    }
+  }
+
+  &-outline-dark {
+    border-color: $bg-grey-3;
+    
+    &:not(:disabled):hover,
+    &:not(:disabled):focus-visible,
+    &:not(:disabled):active {
+      color: $text-black;
+      border-color: $bg-grey-3;
+      background-color: $bg-grey-1;
+    }
+
+  }
+  
+  &-rounded {
+    border-radius: 50px;
+  }
+}
+
 
 .rotate-180 {
   transform: rotate(180deg);

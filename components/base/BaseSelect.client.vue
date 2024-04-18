@@ -1,4 +1,6 @@
 <script setup>
+import { onClickOutside } from '@vueuse/core';
+
 const props = defineProps({
   selectItems: {
     type: Array,
@@ -10,6 +12,7 @@ const emit = defineEmits(['update:modelValue']);
 
 const isSelectVisible = ref(false);
 const currentActiveIndex = ref(0);
+const select = ref(null);
 
 const toggleSelect = async () => {
   isSelectVisible.value = !isSelectVisible.value;
@@ -23,13 +26,11 @@ const selectOptions = ref([]);
 const focusOnSelectOption = () => {
   if (isSelectVisible.value) {
     const currentEl = selectOptions.value[currentActiveIndex.value];
-    console.log(currentEl.querySelector('button'));
     currentEl.querySelector('button').focus();
   }
 };
 
 const selectItemClicked = (item) => {
-  console.log(item);
   emit('update:modelValue', item);
 };
 
@@ -40,9 +41,10 @@ const moveFocusDown = () => {
 
 const moveFocusUp = () => {
   currentActiveIndex.value = (currentActiveIndex.value - 1 + selectOptions.value.length) % selectOptions.value.length;
-  console.log(currentActiveIndex.value);
   focusOnSelectOption();
 };
+
+onClickOutside(select, () => isSelectVisible.value = false);
 
 const handleKeyPress = (event) => {
   const { key } = event;
@@ -62,7 +64,10 @@ const handleKeyPress = (event) => {
 </script>
 
 <template>
-  <div class="select">
+  <div
+    ref="select"
+    class="select"
+  >
     <button
       class="select-toggle"
       type="button"

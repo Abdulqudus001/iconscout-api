@@ -10,12 +10,12 @@ const selectItem = ref('');
       :select-items="['3D', 'Icons', 'Illustrations']"
     />
     <input
-      class="search-input pe-6"
+      class="search-input pe-7"
       type="text"
       aria-label="Search from 8 million+ assets"
       placeholder="Search from 8 million+ assets"
     >
-    <button class="reverse-search ms-2">
+    <button class="reverse-search ms-auto">
       <img
         src="~assets/icons/reverse-search-picture.svg"
         alt="Reverse search"
@@ -45,6 +45,8 @@ const selectItem = ref('');
     background-size: 24px;
     background-position: 0.5rem center;
     outline: none;
+    width: 100%;
+    text-overflow: ellipsis;
 
     &::placeholder {
       color: $text-black;
