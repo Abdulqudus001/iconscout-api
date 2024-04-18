@@ -30,7 +30,7 @@ const showNavDropdown = (navItem) => {
 <template>
   <header
     ref="header"
-    class="position-relative"
+    class="sticky-header position-relative"
   >
     <nav class="nav">
       <ul class="nav-menu d-flex align-items-center my-0 w-100">
@@ -128,12 +128,15 @@ const showNavDropdown = (navItem) => {
 </template>
 
 <style lang="scss" scoped>
-.nav {
+.sticky-header {
   position: sticky;
-  box-shadow: 0px 6px 16px 0px rgba(0, 0, 0, 0.08);
   top: 0;
-  left: 0;
-  right: 0;
+  z-index: 1;
+  background-color: $white;
+}
+
+.nav {
+  box-shadow: 0px 6px 16px 0px rgba(0, 0, 0, 0.08);
   padding: 1rem 1.5rem;
 
   .nav-menu {
