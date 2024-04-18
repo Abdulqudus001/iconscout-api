@@ -1,3 +1,12 @@
+<script setup>
+const route = useRoute()
+
+const getLinkWithQueryParams = (path) => {
+  const availableQueries = new URLSearchParams(route.query);
+  return `${path}?${availableQueries}`
+}
+
+</script>
 <template>
   <div class="filter">
     <div class="">
@@ -19,19 +28,25 @@
           <div class="tabs">
             <ul role="tablist" class="tablist d-flex">
               <li class="tablist__item">
-                <NuxtLink to="/">All Assets</NuxtLink>
+                <NuxtLink :to="getLinkWithQueryParams('/')">All Assets</NuxtLink>
               </li>
               <li class="tablist__item">
-                <NuxtLink to="/3d-illustrations">3D Illustrations</NuxtLink>
+                <NuxtLink :to="getLinkWithQueryParams('/3d-illustrations')">3D Illustrations</NuxtLink>
               </li>
               <li class="tablist__item">
-                <NuxtLink to="/animations">Lottie Animations</NuxtLink>
+                <NuxtLink :to="getLinkWithQueryParams('/animations')">
+                  Lottie Animations
+                </NuxtLink>
               </li>
               <li class="tablist__item">
-                <NuxtLink to="/illustrations">Illustrations</NuxtLink>
+                <NuxtLink :to="getLinkWithQueryParams('/illustrations')">
+                  Illustrations
+                </NuxtLink>
               </li>
               <li class="tablist__item">
-                <NuxtLink to="/icons">Icons</NuxtLink>
+                <NuxtLink :to="getLinkWithQueryParams('/icons')">
+                  Icons
+                </NuxtLink>
               </li>
             </ul>
           </div>
