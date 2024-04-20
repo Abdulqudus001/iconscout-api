@@ -43,7 +43,7 @@ export const useAssetStore = defineStore('asset', {
           // Generate title
           const animationType = this.assetTypeMap[assetType.value];
           const formattedCount = new Intl.NumberFormat('en-US').format(this.assetCount);
-          this.title = `${formattedCount} ${price.value || 'free'} ${animationType}`;
+          this.title = `${formattedCount} ${price.value || 'free'} ${search?.value || ''} ${animationType}`;
         }
       }
       catch (err) {
