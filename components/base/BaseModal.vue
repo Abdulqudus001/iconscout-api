@@ -1,7 +1,12 @@
 <script setup>
 import { useFocusTrap } from '@vueuse/integrations/useFocusTrap'
+import { onClickOutside } from '@vueuse/core';
+
 
 const icModal = ref(null);
+const modalContainer = ref(null);
+
+onClickOutside(modalContainer, () => showModal.value = false);
 
 const { hasFocus } = useFocusTrap(icModal, { immediate: true })
 
@@ -13,7 +18,7 @@ const showModal = defineModel({
   <Teleport to="body">
     <div v-if="showModal" class="ic-modal" ref="icModal">
       <div class="ic-modal__backdrop"></div>
-      <div class="modal-container">
+      <div class="modal-container" ref="modalContainer">
         <div class="ic-modal__header">
           <div class="container-fluid d-flex justify-content-between align-items-center">
             <div class="ic-modal__title">
