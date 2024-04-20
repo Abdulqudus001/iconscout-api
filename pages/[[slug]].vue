@@ -2,7 +2,7 @@
 import { useElementBounding } from '@vueuse/core';
 import { useAssetStore } from '~/store/assets';
 
-const { assetType, price, sortBy } = useFilter();
+const { assetType, price, sortBy, search } = useFilter();
 
 const assetStore = useAssetStore();
 const { assetList, loadingAssets, loadingAssetStatus, loadingType, title } = storeToRefs(assetStore);
@@ -10,7 +10,7 @@ const { fetchAssets } = assetStore;
 
 const page = ref(1);
 
-await fetchAssets(assetType, price, sortBy, page, true);
+await fetchAssets(search, assetType, price, sortBy, page, true);
 
 const assetsContainer = ref(null);
 
@@ -22,13 +22,13 @@ watch(bottom, () => {
   }
 });
 
-watch([price, sortBy], () => {
+watch([price, sortBy, search], () => {
   page.value = 1;
-  fetchAssets(assetType, price, sortBy, page, true);
+  fetchAssets(search, assetType, price, sortBy, page, true);
 });
 
 watch(page, () => {
-  fetchAssets(assetType, price, sortBy, page);
+  fetchAssets(search, assetType, price, sortBy, page);
 });
 
 </script>

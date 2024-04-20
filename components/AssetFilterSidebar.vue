@@ -25,7 +25,7 @@ watch(() => assetFilter.assetType, (asset) => {
 
 watch(() => assetFilter.price, (price) => {
   navigateTo({
-    path: route.fullPath,
+    path: route.path,
     query: {
       ...route.query,
       price,
@@ -35,7 +35,7 @@ watch(() => assetFilter.price, (price) => {
 
 watch(() => assetFilter.sortBy, (sortBy) => {
   navigateTo({
-    path: route.fullPath,
+    path: route.path,
     query: {
       ...route.query,
       sort: sortBy,

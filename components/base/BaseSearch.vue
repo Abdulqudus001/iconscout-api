@@ -1,5 +1,30 @@
 <script setup>
-const selectItem = ref('');
+const selectItem = ref('3D');
+const searchQuery = ref('');
+
+const route = useRoute()
+
+const handleSearchInput = () => {
+  navigateTo({
+    path: route.path,
+    query: {
+      ...route.query,
+      search: searchQuery.value,
+    },
+  })
+}
+
+searchQuery.value = route.query.search || ''
+
+const clearSearchQuery = () => {
+  searchQuery.value = ''
+  const query = { ...route.query }
+  delete query.search
+  navigateTo({
+    path: route.path,
+    query,
+  })
+}
 </script>
 
 <template>
@@ -10,11 +35,17 @@ const selectItem = ref('');
       :select-items="['3D', 'Icons', 'Illustrations']"
     />
     <input
-      class="search-input pe-7"
+      v-model="searchQuery"
+      @keydown.enter="handleSearchInput"
+      class="search-input"
       type="text"
       aria-label="Search from 8 million+ assets"
       placeholder="Search from 8 million+ assets"
     >
+    <button class="btn-clear" :class="{ 'visible': searchQuery.length > 1 }" @click="clearSearchQuery">
+      <p class="visually-hidden">Clear search text</p>
+      <Icon name="material-symbols:close-rounded" />
+    </button>
     <button class="reverse-search ms-auto">
       <img
         src="~assets/icons/reverse-search-picture.svg"
@@ -36,6 +67,13 @@ const selectItem = ref('');
     border-right: 1px solid $bg-grey-4;
   }
 
+  .btn-clear {
+    background-color: transparent;
+    border: none;
+    pointer-events: none;
+    opacity: 0;
+  }
+
   .search-input {
     border: none;
     background-color: transparent;
@@ -52,6 +90,16 @@ const selectItem = ref('');
       color: $text-black;
       font-size: 0.875rem;
     }
+
+    &:focus + .btn-clear {
+      opacity: 1;
+      pointer-events: all;
+    }
+  }
+
+  .btn-clear.visible {
+    opacity: 1;
+    pointer-events: all;
   }
 
   .reverse-search {

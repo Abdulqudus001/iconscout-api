@@ -16,10 +16,12 @@ export default function () {
 
   const price = computed(() => getQueryParams(route.query.price) || 'free');
   const sortBy = computed(() => getQueryParams(route.query.sort) || 'relevant');
+  const search = computed(() => route.query.search);
 
   return {
     assetType,
     price,
     sortBy,
+    search
   };
 }

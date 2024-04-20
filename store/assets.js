@@ -14,7 +14,7 @@ export const useAssetStore = defineStore('asset', {
     title: '',
   }),
   actions: {
-    async fetchAssets(assetType, price, sortBy, page, reset = false) {
+    async fetchAssets(search, assetType, price, sortBy, page, reset = false) {
       if (reset) {
         this.assetList = [];
       }
@@ -23,6 +23,7 @@ export const useAssetStore = defineStore('asset', {
       try {
         const data = await $fetch('https://api.iconscout.com/v3/search', {
           query: {
+            query: search.value,
             asset: assetType.value,
             price: price.value,
             sort: sortBy.value,

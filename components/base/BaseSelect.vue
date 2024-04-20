@@ -8,6 +8,10 @@ const props = defineProps({
   },
 });
 
+const selectItem = defineModel({
+  type: String
+})
+
 const emit = defineEmits(['update:modelValue']);
 
 const isSelectVisible = ref(false);
@@ -31,7 +35,9 @@ const focusOnSelectOption = () => {
 };
 
 const selectItemClicked = (item) => {
-  emit('update:modelValue', item);
+  // emit('update:modelValue', item);
+  selectItem.value = item
+  isSelectVisible.value = false;
 };
 
 const moveFocusDown = () => {
@@ -78,7 +84,7 @@ const handleKeyPress = (event) => {
       <slot name="select-toggle">
         <div class="d-flex align-items-center">
           <p class="select-toggle-title">
-            {{ props.selectItems[0] }}
+            {{ selectItem }}
           </p>
           <Icon name="ic:baseline-keyboard-arrow-down" />
         </div>
