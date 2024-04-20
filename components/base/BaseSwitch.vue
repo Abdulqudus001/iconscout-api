@@ -1,9 +1,16 @@
 <script setup>
-const checkedModel = defineModel();
+const checkedModel = defineModel({
+  type: Boolean,
+});
 </script>
+
 <template>
   <div class="switch">
-    <input :id="`input-${$attrs.name}-${$attrs.id}`" type="checkbox" v-model="checkedModel">
+    <input
+      :id="`input-${$attrs.name}-${$attrs.id}`"
+      v-model="checkedModel"
+      type="checkbox"
+    >
     <label :for="`input-${$attrs.name}-${$attrs.id}`">
       <template v-if="$slots.label">
         <slot name="label" />

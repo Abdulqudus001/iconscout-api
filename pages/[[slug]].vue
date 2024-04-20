@@ -1,70 +1,129 @@
 <script setup>
-const { assetType, price, sortBy } = useFilter()
+import { useElementBounding } from '@vueuse/core';
+import { useAssetStore } from '~/store/assets';
 
-const { data, status, pending } = await useLazyFetch('https://api.iconscout.com/v3/search', {
-  query: {
-    assetType,
-    price,
-    sort: sortBy
-  },
-  headers: {
-    'Client-ID': '214567553662354'
-  },
-})
+const { assetType, price, sortBy } = useFilter();
 
-const assets = computed(() => {
-  return data.value?.response?.items?.data
-})
+const assetStore = useAssetStore();
+const { assetList, loadingAssets, loadingAssetStatus, loadingType, title } = storeToRefs(assetStore);
+const { fetchAssets } = assetStore;
 
+const page = ref(1);
+
+await fetchAssets(assetType, price, sortBy, page, true);
+
+const assetsContainer = ref(null);
+
+const { bottom } = useElementBounding(assetsContainer);
+
+watch(bottom, () => {
+  if (Math.abs(bottom.value - window.innerHeight) < 200 && !loadingAssets.value) {
+    page.value += 1;
+  }
+});
+
+watch([price, sortBy], () => {
+  page.value = 1;
+  fetchAssets(assetType, price, sortBy, page, true);
+});
+
+watch(page, () => {
+  fetchAssets(assetType, price, sortBy, page);
+});
+
+const assetClasses = computed(() => {
+  return loadingType.value === 'icon' ? ['assets', 'assets--icon'] : ['assets'];
+});
+
+const skeletonLoaderCount = computed(() => {
+  return loadingType.value === 'icon' ? 100 : 20;
+});
 </script>
 
 <template>
   <main>
+    <Head>
+      <Title>{{ title }}</Title>
+    </Head>
+    <AssetTitle :title="title" />
     <AssetFilter class="d-none d-lg-block" />
     <div class="main d-flex">
       <AssetFilterSidebar class="d-none d-lg-block" />
-      <div class="container-fluid">
+      <div
+        class="w-100"
+        :class="{ 'is-video': assetType === 'lottie' }"
+      >
         <div
-          class="assets"
-          :class="{'assets--icon': assetType === 'icon'}"
+          ref="assetsContainer"
+          class="container-fluid pb-5"
         >
-          <template v-if="pending">
-            <div
-              v-for="i in 20"
-              :key="i"
-              class="asset--loading"
-            ></div>
+          <template v-if="loadingAssetStatus === 'error'">
+            <div class="error-noti">
+              <img
+                src="~assets/icons/error.svg"
+                alt=""
+              >
+              <p>
+                Something went wrong. It's not you, it's us. Please refresh the page
+              </p>
+            </div>
           </template>
           <template v-else>
-            <article
-              v-for="asset in assets"
-              :key="asset.uuid"
-              class="asset"
-            >
-              <template v-if="assetType === 'icon'">
-                <a href="/sample url" class="asset-link">
-                  <div class="asset-img">
-                    <img
-                      loading="lazy"
-                      :src="asset.urls.png_128"
-                      :alt="asset.slug"
-                    >
-                  </div>
-                </a>
+            <div :class="assetClasses">
+              <template v-if="loadingAssets && assetList.length < 1">
+                <div
+                  v-for="i in skeletonLoaderCount"
+                  :key="i"
+                  class="asset--loading"
+                />
               </template>
               <template v-else>
-                <a href="/sample url" class="asset-link">
-                  <div class="asset-img">
-                    <img
-                      loading="lazy"
-                      :src="asset.urls.thumb"
-                      :alt="asset.slug"
-                    >
-                  </div>
-                </a>
+                <article
+                  v-for="asset in assetList"
+                  :key="asset.uuid"
+                  class="asset"
+                  :class="{ 'asset--video': assetType === 'lottie' }"
+                >
+                  <template v-if="assetType === 'icon'">
+                    <div class="asset-link">
+                      <div class="asset-img">
+                        <img
+                          loading="lazy"
+                          :src="asset.urls.png_128"
+                          :alt="asset.slug"
+                        >
+                      </div>
+                    </div>
+                  </template>
+                  <template v-else>
+                    <div class="asset-link">
+                      <div class="asset-img">
+                        <img
+                          v-if="assetType !== 'lottie'"
+                          loading="lazy"
+                          :src="asset.urls.thumb"
+                          :alt="asset.slug"
+                        >
+                        <video
+                          v-else
+                          muted
+                          :src="asset.urls.thumb"
+                          autoplay
+                          loop
+                        />
+                      </div>
+                    </div>
+                  </template>
+                </article>
               </template>
-            </article>
+            </div>
           </template>
+          <div
+            v-if="loadingAssets && assetList.length > 1"
+            class="spinner text-center"
+          >
+            <Icon name="svg-spinners:270-ring" />
+          </div>
         </div>
       </div>
     </div>
@@ -76,6 +135,29 @@ const assets = computed(() => {
   100% {
     transform: translateX(100%);
   }
+}
+
+.error-noti {
+  max-width: 500px;
+  margin: auto;
+  padding-top: 100px;
+  color: $secondary;
+  font-weight: 600;
+  text-align: center;
+
+  img {
+    max-width: 200px;
+  }
+
+  p {
+    font-size: 1.5rem;
+    margin-top: 1rem;
+  }
+}
+
+.spinner {
+  font-size: 4rem;
+  color: $primary
 }
 
 .assets {
@@ -93,6 +175,10 @@ const assets = computed(() => {
     position: relative;
     overflow: hidden;
     display: block;
+
+    &--video {
+      background-color: $white;
+    }
 
     &-link {
       padding: 0.5rem 0.75rem;
@@ -112,7 +198,8 @@ const assets = computed(() => {
       justify-content: center;
       align-items: center;
 
-      img {
+      img,
+      video {
         transition: transform .2s ease;
         max-width: 100%;
         max-height: 100%;
@@ -129,13 +216,16 @@ const assets = computed(() => {
       background-color: rgba($text-black, 0.1);
       content: '';
       opacity: 0;
+      z-index: 1;
       transition: opacity .2s ease-out;
     }
 
     &:hover {
-      img {
+      img,
+      video {
         transform: scale(1.1);
       }
+
       &::before {
         opacity: 1;
       }
@@ -205,5 +295,10 @@ const assets = computed(() => {
       }
     }
   }
+}
+
+.is-video {
+  background-color: $bg-grey-2;
+  width: 100%;
 }
 </style>

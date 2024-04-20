@@ -4,61 +4,56 @@ const assetFilterDropdown = reactive({
   sortBy: true,
   price: true,
   view: false,
-})
+});
 
 const assetFilter = reactive({
   assetType: 'all',
   sortBy: 'relevant',
   price: 'free',
-  view: 'individual'
-})
+  view: 'individual',
+});
 
-const { changePriceType, changeSortType } = useFilter()
-const route = useRoute()
+const route = useRoute();
 
 watch(() => assetFilter.assetType, (asset) => {
-  const assetType = asset === 'all' ? '' : asset
+  const assetType = asset === 'all' ? '' : asset;
   navigateTo({
     path: `/${assetType}`,
-    query: route.query
-  })
-})
+    query: route.query,
+  });
+});
 
 watch(() => assetFilter.price, (price) => {
-  // changePriceType(price)
   navigateTo({
     path: route.fullPath,
     query: {
       ...route.query,
       price,
-    }
-  })
-})
+    },
+  });
+});
 
 watch(() => assetFilter.sortBy, (sortBy) => {
-  // changeSortType(sortBy)
   navigateTo({
     path: route.fullPath,
     query: {
       ...route.query,
       sort: sortBy,
-    }
-  })
-})
+    },
+  });
+});
 
 // Change reactive obj based on route
 if (route.params.slug) {
-  assetFilter.assetType = route.params.slug
+  assetFilter.assetType = route.params.slug;
 }
 
 if (route.query.price) {
-  // changePriceType(route.query.price)
-  assetFilter.price = route.query.price
+  assetFilter.price = route.query.price;
 }
 
 if (route.query.sort) {
-  // changeSortType(route.query.sort)
-  assetFilter.sortBy = route.query.sort
+  assetFilter.sortBy = route.query.sort;
 }
 
 const isExclusiveChecked = ref(false);
@@ -69,8 +64,14 @@ const isExclusiveChecked = ref(false);
     <div class="exclusive-toggle">
       <div class="container-fluid">
         <div class="d-flex justify-content-between align-items-center">
-          <p id="exlusive-toggle">Iconscout Exclusive</p>
-          <BaseSwitch id="exclusive" aria-labelledby="exlusive-toggle" v-model="isExclusiveChecked" />
+          <p id="exlusive-toggle">
+            Iconscout Exclusive
+          </p>
+          <BaseSwitch
+            id="exclusive"
+            v-model="isExclusiveChecked"
+            aria-labelledby="exlusive-toggle"
+          />
         </div>
       </div>
     </div>
@@ -86,20 +87,43 @@ const isExclusiveChecked = ref(false);
         />
       </button>
       <Transition name="drop">
-        <div v-if="assetFilterDropdown.assetType" class="filter-content container-fluid">
-          <BaseRadio name="assetType" value="all" v-model="assetFilter.assetType">
+        <div
+          v-if="assetFilterDropdown.assetType"
+          class="filter-content container-fluid"
+        >
+          <BaseRadio
+            v-model="assetFilter.assetType"
+            name="assetType"
+            value="all"
+          >
             All asset
           </BaseRadio>
-          <BaseRadio name="assetType" value="3d-illustrations" v-model="assetFilter.assetType">
+          <BaseRadio
+            v-model="assetFilter.assetType"
+            name="assetType"
+            value="3d-illustrations"
+          >
             3D Illustrations
           </BaseRadio>
-          <BaseRadio name="assetType" value="animations" v-model="assetFilter.assetType">
+          <BaseRadio
+            v-model="assetFilter.assetType"
+            name="assetType"
+            value="animations"
+          >
             Lottie Animations
           </BaseRadio>
-          <BaseRadio name="assetType" value="illustrations" v-model="assetFilter.assetType">
+          <BaseRadio
+            v-model="assetFilter.assetType"
+            name="assetType"
+            value="illustrations"
+          >
             Illustrations
           </BaseRadio>
-          <BaseRadio name="assetType" value="icons" v-model="assetFilter.assetType">
+          <BaseRadio
+            v-model="assetFilter.assetType"
+            name="assetType"
+            value="icons"
+          >
             Icons
           </BaseRadio>
         </div>
@@ -117,14 +141,29 @@ const isExclusiveChecked = ref(false);
         />
       </button>
       <Transition name="drop">
-        <div v-if="assetFilterDropdown.price" class="filter-content container-fluid">
-          <BaseRadio name="price" value="free" v-model="assetFilter.price">
+        <div
+          v-if="assetFilterDropdown.price"
+          class="filter-content container-fluid"
+        >
+          <BaseRadio
+            v-model="assetFilter.price"
+            name="price"
+            value="free"
+          >
             Free
           </BaseRadio>
-          <BaseRadio name="price" value="premium" v-model="assetFilter.price">
+          <BaseRadio
+            v-model="assetFilter.price"
+            name="price"
+            value="premium"
+          >
             Premium
           </BaseRadio>
-          <BaseRadio name="price" value="all" v-model="assetFilter.price">
+          <BaseRadio
+            v-model="assetFilter.price"
+            name="price"
+            value="all"
+          >
             All
           </BaseRadio>
         </div>
@@ -142,11 +181,22 @@ const isExclusiveChecked = ref(false);
         />
       </button>
       <Transition name="drop">
-        <div v-if="assetFilterDropdown.view" class="filter-content container-fluid">
-          <BaseRadio name="view" value="pack" v-model="assetFilter.view">
+        <div
+          v-if="assetFilterDropdown.view"
+          class="filter-content container-fluid"
+        >
+          <BaseRadio
+            v-model="assetFilter.view"
+            name="view"
+            value="pack"
+          >
             Pack
           </BaseRadio>
-          <BaseRadio name="view" value="individual" v-model="assetFilter.view">
+          <BaseRadio
+            v-model="assetFilter.view"
+            name="view"
+            value="individual"
+          >
             Individual
           </BaseRadio>
         </div>
@@ -164,14 +214,29 @@ const isExclusiveChecked = ref(false);
         />
       </button>
       <Transition name="drop">
-        <div v-if="assetFilterDropdown.sortBy" class="filter-content container-fluid">
-          <BaseRadio name="sortBy" value="popular" v-model="assetFilter.sortBy">
+        <div
+          v-if="assetFilterDropdown.sortBy"
+          class="filter-content container-fluid"
+        >
+          <BaseRadio
+            v-model="assetFilter.sortBy"
+            name="sortBy"
+            value="popular"
+          >
             Popular
           </BaseRadio>
-          <BaseRadio name="sortBy" value="latest" v-model="assetFilter.sortBy">
+          <BaseRadio
+            v-model="assetFilter.sortBy"
+            name="sortBy"
+            value="latest"
+          >
             Latest
           </BaseRadio>
-          <BaseRadio name="sortBy" value="relevant" v-model="assetFilter.sortBy">
+          <BaseRadio
+            v-model="assetFilter.sortBy"
+            name="sortBy"
+            value="relevant"
+          >
             Relevant
           </BaseRadio>
         </div>
@@ -189,6 +254,7 @@ const isExclusiveChecked = ref(false);
   position: sticky;
   top: 7.725rem;
   height: calc(100vh - 18.75rem);
+  z-index: 2;
 
   &::-webkit-scrollbar {
     width: 0;
@@ -209,7 +275,7 @@ const isExclusiveChecked = ref(false);
     border-bottom: 1px solid $bg-grey-1;
     padding-top: 1.375rem;
     padding-bottom: 1.375rem;
-    
+
     &-header {
       width: 100%;
       background-color: transparent;

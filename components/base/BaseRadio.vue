@@ -1,18 +1,22 @@
 <script setup>
-import { useAttrs } from 'vue'
-const radioModel = defineModel();
+import { useAttrs } from 'vue';
+
+const radioModel = defineModel({
+  type: String,
+});
 const id = computed(() => {
-  const attrs = useAttrs()
-  return attrs.id ? `input-${attrs.name}-${attrs.id}` : `input-${attrs.name}-${attrs.value.toLowerCase()}`
-})
+  const attrs = useAttrs();
+  return attrs.id ? `input-${attrs.name}-${attrs.id}` : `input-${attrs.name}-${attrs.value.toLowerCase()}`;
+});
 </script>
+
 <template>
   <div class="radio">
     <input
       v-bind="$attrs"
       :id="id"
-      type="radio"
       v-model="radioModel"
+      type="radio"
     >
     <label :for="id">
       <template v-if="$slots.default">
@@ -25,7 +29,7 @@ const id = computed(() => {
 <style lang="scss" scoped>
 .radio {
   position: relative;
-  
+
   label {
     cursor: pointer;
     padding-left: 1.5rem;

@@ -131,7 +131,7 @@ const showNavDropdown = (navItem) => {
 .sticky-header {
   position: sticky;
   top: 0;
-  z-index: 1;
+  z-index: 2;
   background-color: $white;
 }
 
@@ -227,7 +227,7 @@ const showNavDropdown = (navItem) => {
         margin-right: 0.75rem;
         max-width: 400px;
       }
-  
+
       &.nav-item-home {
         margin-right: 0.75rem;
       }
