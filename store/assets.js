@@ -71,14 +71,4 @@ export const useAssetStore = defineStore('asset', {
       }
     }
   },
-  // const assetsTitle = useState('assetsTitle', () => {
-  //   const animationType = assetTypeMap[assetType.value];
-
-  //   if (status.value === 'error') {
-  //     return animationType;
-  //   }
-
-  //   const formattedCount = new Intl.NumberFormat('en-US').format(assetCount.value);
-  //   return `${formattedCount} ${price.value || 'free'} ${animationType}`;
-  // });
 });

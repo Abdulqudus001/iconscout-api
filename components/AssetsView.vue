@@ -51,7 +51,6 @@ const downloadWithFileFormat = async (format) => {
       selectedAsset.value.asset === 'lottie',
       format
     )
-    console.log(data);
   
     // Handle download after data is returned
     const url = data.response.download.download_url
@@ -79,6 +78,9 @@ const downloadWithFileFormat = async (format) => {
         <template #default>
           <div class="download-formats">
             <div class="container-fluid">
+              <p v-if="downloadingAssetError" class="text-secondary fw-bold text-center">
+                Something went wrong, please try again
+              </p>
               <div v-for="format in downloadFormats" :key="format.format" class="format d-flex justify-content-between align-items-center">
                 <p class="mb-0">{{ format.title }}</p>
                 <button
