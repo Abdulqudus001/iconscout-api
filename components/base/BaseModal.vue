@@ -1,29 +1,39 @@
 <script setup>
-import { useFocusTrap } from '@vueuse/integrations/useFocusTrap'
+import { useFocusTrap } from '@vueuse/integrations/useFocusTrap';
 import { onClickOutside } from '@vueuse/core';
-
 
 const icModal = ref(null);
 const modalContainer = ref(null);
 
 onClickOutside(modalContainer, () => showModal.value = false);
 
-const { hasFocus } = useFocusTrap(icModal, { immediate: true })
+const { hasFocus } = useFocusTrap(icModal, { immediate: true });
 
 const showModal = defineModel({
-  type: Boolean
-})
+  type: Boolean,
+});
 </script>
+
 <template>
   <Teleport to="body">
-    <div v-if="showModal" class="ic-modal" ref="icModal">
-      <div class="ic-modal__backdrop"></div>
-      <div class="modal-container" ref="modalContainer">
+    <div
+      v-if="showModal"
+      ref="icModal"
+      class="ic-modal"
+    >
+      <div class="ic-modal__backdrop" />
+      <div
+        ref="modalContainer"
+        class="modal-container"
+      >
         <div class="ic-modal__header d-flex justify-content-between align-items-center">
           <div class="ic-modal__title">
             <slot name="title" />
           </div>
-          <button class="ic-modal__close" @click="showModal = false">
+          <button
+            class="ic-modal__close"
+            @click="showModal = false"
+          >
             <span class="visually-hidden">Close Modal</span>
             <Icon name="material-symbols:close-rounded" />
           </button>
@@ -31,7 +41,7 @@ const showModal = defineModel({
         <div class="ic-modal__body">
           <slot>
             This is the modal container
-            {{ hasFocus}}
+            {{ hasFocus }}
           </slot>
         </div>
       </div>
@@ -65,6 +75,7 @@ const showModal = defineModel({
   }
 
   .modal-container {
+    margin: 1.5rem;
     background-color: $white;
     min-width: 400px;
     max-width: 700px;

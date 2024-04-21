@@ -5,7 +5,7 @@ const { toggleReverseSearch } = useAssetStore();
 const selectItem = ref('3D');
 const searchQuery = ref('');
 
-const route = useRoute()
+const route = useRoute();
 
 const handleSearchInput = () => {
   navigateTo({
@@ -14,20 +14,20 @@ const handleSearchInput = () => {
       ...route.query,
       search: searchQuery.value,
     },
-  })
-}
+  });
+};
 
-searchQuery.value = route.query.search || ''
+searchQuery.value = route.query.search || '';
 
 const clearSearchQuery = () => {
-  searchQuery.value = ''
-  const query = { ...route.query }
-  delete query.search
+  searchQuery.value = '';
+  const query = { ...route.query };
+  delete query.search;
   navigateTo({
     path: route.path,
     query,
-  })
-}
+  });
+};
 </script>
 
 <template>
@@ -39,17 +39,26 @@ const clearSearchQuery = () => {
     />
     <input
       v-model="searchQuery"
-      @keydown.enter="handleSearchInput"
       class="search-input"
       type="text"
       aria-label="Search from 8 million+ assets"
       placeholder="Search from 8 million+ assets"
+      @keydown.enter="handleSearchInput"
     >
-    <button class="btn-clear" :class="{ 'visible': searchQuery.length > 1 }" @click="clearSearchQuery">
-      <p class="visually-hidden">Clear search text</p>
+    <button
+      class="btn-clear"
+      :class="{ visible: searchQuery.length > 1 }"
+      @click="clearSearchQuery"
+    >
+      <p class="visually-hidden">
+        Clear search text
+      </p>
       <Icon name="material-symbols:close-rounded" />
     </button>
-    <button class="reverse-search ms-auto" @click="toggleReverseSearch(true)">
+    <button
+      class="reverse-search ms-auto"
+      @click="toggleReverseSearch(true)"
+    >
       <img
         src="~assets/icons/reverse-search-picture.svg"
         alt="Reverse search"

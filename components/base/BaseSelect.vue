@@ -9,10 +9,8 @@ const props = defineProps({
 });
 
 const selectItem = defineModel({
-  type: String
-})
-
-const emit = defineEmits(['update:modelValue']);
+  type: String,
+});
 
 const isSelectVisible = ref(false);
 const currentActiveIndex = ref(0);
@@ -35,8 +33,7 @@ const focusOnSelectOption = () => {
 };
 
 const selectItemClicked = (item) => {
-  // emit('update:modelValue', item);
-  selectItem.value = item
+  selectItem.value = item;
   isSelectVisible.value = false;
 };
 

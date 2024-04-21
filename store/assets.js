@@ -12,7 +12,7 @@ export const useAssetStore = defineStore('asset', {
       'lottie': 'Lottie Animations',
     },
     assetPageTitle: '',
-    showAssetReverseSearch: false
+    showAssetReverseSearch: false,
   }),
   actions: {
     async fetchAssets(search, assetType, price, sortBy, page, reset = false) {
@@ -60,20 +60,21 @@ export const useAssetStore = defineStore('asset', {
         const data = await $fetch(`https://api.iconscout.com/v3/items/${uuid}/api-download`, {
           method: 'POST',
           body: {
-            format
+            format,
           },
           headers: {
             'Client-ID': '30774341467952',
             'Client-Secret': '6Qs4JV3SiEIfHi6Je9iFvPggaeqrhXbw',
           },
         });
-        return data
-      } catch(err) {
+        return data;
+      }
+      catch (err) {
         console.log(err);
       }
     },
     toggleReverseSearch(val) {
-      this.showAssetReverseSearch = val
-    }
+      this.showAssetReverseSearch = val;
+    },
   },
 });

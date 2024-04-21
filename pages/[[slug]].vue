@@ -30,7 +30,6 @@ watch([price, sortBy, search], () => {
 watch(page, () => {
   fetchAssets(search, assetType, price, sortBy, page);
 });
-
 </script>
 
 <template>

@@ -1,6 +1,7 @@
 <script setup>
 import { useAssetStore } from '~/store/assets';
-const assetStore = useAssetStore()
+
+const assetStore = useAssetStore();
 const { assetList, loadingAssets, loadingType } = storeToRefs(assetStore);
 
 const { downloadAsset } = assetStore;
@@ -16,54 +17,55 @@ const skeletonLoaderCount = computed(() => {
 const downloadFormats = [
   {
     title: 'SVG',
-    format: 'svg'
+    format: 'svg',
   },
   {
     title: 'PNG',
-    format: 'png'
+    format: 'png',
   },
   {
     title: 'JPEG',
-    format: 'jpg'
+    format: 'jpg',
   },
-]
+];
 
 const selectedAsset = ref(null);
 const showModal = ref(false);
 
 const openFileFormatModal = (asset) => {
-  selectedAsset.value = asset
-  showModal.value = true
-}
+  selectedAsset.value = asset;
+  showModal.value = true;
+};
 
-
-const downloadingAsset = ref(false)
-const downloadingAssetError = ref(false)
+const downloadingAsset = ref(false);
+const downloadingAssetError = ref(false);
 const downloadWithFileFormat = async (format) => {
   if (downloadingAsset.value) {
-    return
+    return;
   }
-  downloadingAsset.value = true
-  downloadingAssetError.value = false
+  downloadingAsset.value = true;
+  downloadingAssetError.value = false;
   try {
     const data = await downloadAsset(
       selectedAsset.value.uuid,
       selectedAsset.value.asset === 'lottie',
-      format
-    )
-  
+      format,
+    );
+
     // Handle download after data is returned
-    const url = data.response.download.download_url
+    const url = data.response.download.download_url;
     const link = document.createElement('a');
     link.href = url;
-    link.download = url
+    link.download = url;
     link.click();
-  } catch(err) {
-    downloadingAssetError.value = true
-  } finally {
-    downloadingAsset.value = false
   }
-}
+  catch (err) {
+    downloadingAssetError.value = true;
+  }
+  finally {
+    downloadingAsset.value = false;
+  }
+};
 </script>
 
 <template>
@@ -77,18 +79,33 @@ const downloadWithFileFormat = async (format) => {
         </template>
         <template #default>
           <div class="download-formats">
-            <p v-if="downloadingAssetError" class="text-secondary text-center">
+            <p
+              v-if="downloadingAssetError"
+              class="text-secondary text-center"
+            >
               Something went wrong, please try again
             </p>
-            <div v-for="format in downloadFormats" :key="format.format" class="format d-flex justify-content-between align-items-center">
-              <p class="mb-0">{{ format.title }}</p>
+            <div
+              v-for="format in downloadFormats"
+              :key="format.format"
+              class="format d-flex justify-content-between align-items-center"
+            >
+              <p class="mb-0">
+                {{ format.title }}
+              </p>
               <button
                 class="download btn btn-primary"
-                @click="downloadWithFileFormat(format.format)"
                 :disabled="downloadingAsset"
+                @click="downloadWithFileFormat(format.format)"
               >
-                <Icon v-if="downloadingAsset" name="svg-spinners:270-ring" />
-                <Icon v-else name="material-symbols:download" />
+                <Icon
+                  v-if="downloadingAsset"
+                  name="svg-spinners:270-ring"
+                />
+                <Icon
+                  v-else
+                  name="material-symbols:download"
+                />
               </button>
             </div>
           </div>
@@ -105,8 +122,8 @@ const downloadWithFileFormat = async (format) => {
     <template v-else>
       <article
         v-for="asset in assetList"
-        :title="asset.name"
         :key="asset.uuid"
+        :title="asset.name"
         class="asset"
         :class="{ 'asset--video': loadingType === 'lottie' }"
       >
@@ -140,7 +157,11 @@ const downloadWithFileFormat = async (format) => {
             </div>
           </div>
         </template>
-        <button class="asset-download" :title="`Download ${asset.name} asset`" @click="openFileFormatModal(asset)">
+        <button
+          class="asset-download"
+          :title="`Download ${asset.name} asset`"
+          @click="openFileFormatModal(asset)"
+        >
           <span class="visually-hidden">Download {{ asset.name }} asset</span>
           <Icon name="iconoir:download" />
         </button>
@@ -159,7 +180,6 @@ const downloadWithFileFormat = async (format) => {
       padding-bottom: 0.75rem;
       margin: 0.75rem 0;
     }
-    
 
     .download {
       width: 3rem;

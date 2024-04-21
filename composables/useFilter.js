@@ -22,6 +22,6 @@ export default function () {
     assetType,
     price,
     sortBy,
-    search
+    search,
   };
 }
