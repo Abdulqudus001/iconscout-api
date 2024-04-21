@@ -75,7 +75,7 @@ const getLinkWithQueryParams = (path) => {
   background-color: $bg-grey-2;
   position: sticky;
   top: 8.725rem;
-  z-index: 2;
+  z-index: 3;
 
   &-title {
     background-color: transparent;

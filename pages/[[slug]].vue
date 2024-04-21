@@ -63,7 +63,7 @@ watch(page, () => {
           </template>
           <template v-else>
             <AssetsView />
-            <div v-if="page >= 3 && !loadingAssets" class="signup-noti">
+            <div v-if="page >= 3 && !loadingAssets" class="signup-noti text-center">
               <p class="title">
                 Create an account to view {{ assetPageTitle }}
               </p>
@@ -125,8 +125,9 @@ watch(page, () => {
   z-index: 1;
 
   .title {
-    font-size: 1.5rem;
+    font-size: 1.125rem;
     font-weight: 700;
+    margin-bottom: 0;
   }
 
   .btn {
@@ -137,6 +138,12 @@ watch(page, () => {
   a {
     color: $text-blue;
     font-weight: 600;
+  }
+
+  @media screen and (min-width: 768px) {
+    .title {
+      font-size: 1.5rem;
+    }
   }
 }
 
