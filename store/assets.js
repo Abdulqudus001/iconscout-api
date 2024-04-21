@@ -11,7 +11,8 @@ export const useAssetStore = defineStore('asset', {
       'icon': 'Icons',
       'lottie': 'Lottie Animations',
     },
-    title: '',
+    assetPageTitle: '',
+    showAssetReverseSearch: false
   }),
   actions: {
     async fetchAssets(search, assetType, price, sortBy, page, reset = false) {
@@ -43,7 +44,7 @@ export const useAssetStore = defineStore('asset', {
           // Generate title
           const animationType = this.assetTypeMap[assetType.value];
           const formattedCount = new Intl.NumberFormat('en-US').format(this.assetCount);
-          this.title = `${formattedCount} ${price.value || 'free'} ${search?.value || ''} ${animationType}`;
+          this.assetPageTitle = `${formattedCount} ${price.value || 'free'} ${search?.value || ''} ${animationType}`;
         }
       }
       catch (err) {
@@ -70,6 +71,9 @@ export const useAssetStore = defineStore('asset', {
       } catch(err) {
         console.log(err);
       }
+    },
+    toggleReverseSearch(val) {
+      this.showAssetReverseSearch = val
     }
   },
 });

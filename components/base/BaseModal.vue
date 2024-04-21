@@ -19,16 +19,14 @@ const showModal = defineModel({
     <div v-if="showModal" class="ic-modal" ref="icModal">
       <div class="ic-modal__backdrop"></div>
       <div class="modal-container" ref="modalContainer">
-        <div class="ic-modal__header">
-          <div class="container-fluid d-flex justify-content-between align-items-center">
-            <div class="ic-modal__title">
-              <slot name="title" />
-            </div>
-            <button class="ic-modal__close" @click="showModal = false">
-              <span class="visually-hidden">Close Modal</span>
-              <Icon name="material-symbols:close-rounded" />
-            </button>
+        <div class="ic-modal__header d-flex justify-content-between align-items-center">
+          <div class="ic-modal__title">
+            <slot name="title" />
           </div>
+          <button class="ic-modal__close" @click="showModal = false">
+            <span class="visually-hidden">Close Modal</span>
+            <Icon name="material-symbols:close-rounded" />
+          </button>
         </div>
         <div class="ic-modal__body">
           <slot>
@@ -62,19 +60,18 @@ const showModal = defineModel({
     left: 0;
   }
 
-  &__header {
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid $bg-grey-1;
+  &__title {
+    font-size: 0.875rem;
   }
 
   .modal-container {
     background-color: $white;
     min-width: 400px;
-    min-height: 200px;
+    max-width: 700px;
     z-index: 1001;
     border-radius: 12px;
     box-shadow: 0px 4px 8px 0px rgba($black, 0.04);
-    padding: 1.5rem 0;
+    padding: 1rem;
   }
 
   &__close {

@@ -5,7 +5,7 @@ import { useAssetStore } from '~/store/assets';
 const { assetType, price, sortBy, search } = useFilter();
 
 const assetStore = useAssetStore();
-const { assetList, loadingAssets, loadingAssetStatus, loadingType, title } = storeToRefs(assetStore);
+const { assetList, loadingAssets, loadingAssetStatus, loadingType, assetPageTitle, showAssetReverseSearch } = storeToRefs(assetStore);
 const { fetchAssets } = assetStore;
 
 const page = ref(1);
@@ -36,10 +36,11 @@ watch(page, () => {
 <template>
   <main>
     <Head>
-      <Title>{{ title }}</Title>
+      <Title>{{ assetPageTitle }}</Title>
     </Head>
-    <AssetTitle :title="title" />
+    <AssetTitle :title="assetPageTitle" />
     <AssetFilter class="d-none d-lg-block" />
+    <ReverseSearch v-if="showAssetReverseSearch" />
     <div class="main d-flex">
       <AssetFilterSidebar class="d-none d-lg-block" />
       <div

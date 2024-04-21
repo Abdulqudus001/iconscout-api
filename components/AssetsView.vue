@@ -71,27 +71,25 @@ const downloadWithFileFormat = async (format) => {
     <template v-if="showModal">
       <BaseModal v-model="showModal">
         <template #title>
-          <p class="mb-0 fw-bold">
-            Download {{ selectedAsset.name.toLowerCase() }}
+          <p class="mb-0">
+            Download '{{ selectedAsset.name.toLowerCase() }}' asset
           </p>
         </template>
         <template #default>
           <div class="download-formats">
-            <div class="container-fluid">
-              <p v-if="downloadingAssetError" class="text-secondary fw-bold text-center">
-                Something went wrong, please try again
-              </p>
-              <div v-for="format in downloadFormats" :key="format.format" class="format d-flex justify-content-between align-items-center">
-                <p class="mb-0">{{ format.title }}</p>
-                <button
-                  class="download btn btn-primary"
-                  @click="downloadWithFileFormat(format.format)"
-                  :disabled="downloadingAsset"
-                >
-                  <Icon v-if="downloadingAsset" name="svg-spinners:270-ring" />
-                  <Icon v-else name="material-symbols:download" />
-                </button>
-              </div>
+            <p v-if="downloadingAssetError" class="text-secondary text-center">
+              Something went wrong, please try again
+            </p>
+            <div v-for="format in downloadFormats" :key="format.format" class="format d-flex justify-content-between align-items-center">
+              <p class="mb-0">{{ format.title }}</p>
+              <button
+                class="download btn btn-primary"
+                @click="downloadWithFileFormat(format.format)"
+                :disabled="downloadingAsset"
+              >
+                <Icon v-if="downloadingAsset" name="svg-spinners:270-ring" />
+                <Icon v-else name="material-symbols:download" />
+              </button>
             </div>
           </div>
         </template>
@@ -153,8 +151,9 @@ const downloadWithFileFormat = async (format) => {
 
 <style lang="scss" scoped>
 .download-formats {
-  .format {
+  margin-top: 1.5rem;
 
+  .format {
     &:not(:last-child) {
       border-bottom: 1px solid $bg-grey-1;
       padding-bottom: 0.75rem;

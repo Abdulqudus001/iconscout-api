@@ -1,4 +1,7 @@
 <script setup>
+import { useAssetStore } from '~/store/assets';
+
+const { toggleReverseSearch } = useAssetStore();
 const selectItem = ref('3D');
 const searchQuery = ref('');
 
@@ -46,7 +49,7 @@ const clearSearchQuery = () => {
       <p class="visually-hidden">Clear search text</p>
       <Icon name="material-symbols:close-rounded" />
     </button>
-    <button class="reverse-search ms-auto">
+    <button class="reverse-search ms-auto" @click="toggleReverseSearch(true)">
       <img
         src="~assets/icons/reverse-search-picture.svg"
         alt="Reverse search"
