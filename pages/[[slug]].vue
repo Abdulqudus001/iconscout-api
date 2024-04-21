@@ -17,7 +17,7 @@ const assetsContainer = ref(null);
 const { bottom } = useElementBounding(assetsContainer);
 
 watch(bottom, () => {
-  if (Math.abs(bottom.value - window.innerHeight) < 200 && !loadingAssets.value) {
+  if (Math.abs(bottom.value - window.innerHeight) < 200 && !loadingAssets.value && page.value < 3) {
     page.value += 1;
   }
 });
@@ -48,7 +48,7 @@ watch(page, () => {
       >
         <div
           ref="assetsContainer"
-          class="container-fluid pb-5"
+          class="container-fluid pb-5 position-relative"
         >
           <template v-if="loadingAssetStatus === 'error'">
             <div class="error-noti">
@@ -63,6 +63,16 @@ watch(page, () => {
           </template>
           <template v-else>
             <AssetsView />
+            <div v-if="page >= 3 && !loadingAssets" class="signup-noti">
+              <p class="title">
+                Create an account to view {{ assetPageTitle }}
+              </p>
+              <button class="btn btn-primary">Get started - It's Free</button>
+              <p>
+                Already have an account?
+                <a href="#">Log in</a>
+              </p>
+            </div>
           </template>
           <div
             v-if="loadingAssets && assetList.length > 1"
@@ -98,6 +108,35 @@ watch(page, () => {
   p {
     font-size: 1.5rem;
     margin-top: 1rem;
+  }
+}
+
+.signup-noti {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background: linear-gradient(180deg, rgba($white, 0) 0%, rgba($white, 0.9) 21.98%, rgba($white, 0.99) 100%);
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 1;
+
+  .title {
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  .btn {
+    margin: 1.25rem 0 0.75rem;
+    height: 54px;
+  }
+
+  a {
+    color: $text-blue;
+    font-weight: 600;
   }
 }
 
