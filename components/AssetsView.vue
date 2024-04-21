@@ -1,6 +1,6 @@
 <script setup>
 import { useAssetStore } from '~/store/assets';
-const { price } = useFilter();
+const { price, assetType } = useFilter();
 
 const assetStore = useAssetStore();
 const { assetList, loadingAssets, loadingType } = storeToRefs(assetStore);
@@ -15,7 +15,7 @@ const skeletonLoaderCount = computed(() => {
   return loadingType.value === 'icon' ? 100 : 20;
 });
 
-const downloadFormats = [
+const iconDownloadFormats = [
   {
     title: 'SVG',
     format: 'svg',
@@ -30,6 +30,25 @@ const downloadFormats = [
   },
 ];
 
+const lottieDownloadFormats = [
+  {
+    title: 'GIF',
+    format: 'gif',
+  },
+  {
+    title: 'MP4',
+    format: 'mp4',
+  },
+  {
+    title: 'Lottie JSON',
+    format: 'json',
+  },
+];
+
+const downloadFormats = computed(() => {
+  return assetType.value === 'lottie' ? lottieDownloadFormats : iconDownloadFormats
+})
+
 const selectedAsset = ref(null);
 const showModal = ref(false);
 
@@ -40,16 +59,18 @@ const openFileFormatModal = (asset) => {
 
 const downloadingAsset = ref(false);
 const downloadingAssetError = ref(false);
+const assetDownloaded = ref(false);
+
 const downloadWithFileFormat = async (format) => {
   if (downloadingAsset.value) {
     return;
   }
   downloadingAsset.value = true;
+  assetDownloaded.value = false;
   downloadingAssetError.value = false;
   try {
     const data = await downloadAsset(
       selectedAsset.value.uuid,
-      selectedAsset.value.asset === 'lottie',
       format,
     );
 
@@ -59,6 +80,7 @@ const downloadWithFileFormat = async (format) => {
     link.href = url;
     link.download = url;
     link.click();
+    assetDownloaded.value = true;
   }
   catch (err) {
     downloadingAssetError.value = true;
@@ -85,6 +107,9 @@ const downloadWithFileFormat = async (format) => {
               class="text-secondary text-center"
             >
               Something went wrong, please try again
+            </p>
+            <p v-if="assetDownloaded" class="text-primary text-center">
+              Asset downloaded successfully
             </p>
             <div
               v-for="format in downloadFormats"

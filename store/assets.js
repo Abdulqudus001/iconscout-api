@@ -32,8 +32,7 @@ export const useAssetStore = defineStore('asset', {
             page: isRef(page) ? page.value : page,
           },
           headers: {
-            'Client-ID': '30774341467952',
-            'Client-Secret': '6Qs4JV3SiEIfHi6Je9iFvPggaeqrhXbw',
+            'Client-ID': useRuntimeConfig().public.iconscoutClientId,
           },
         });
 
@@ -55,7 +54,7 @@ export const useAssetStore = defineStore('asset', {
         this.loadingAssets = false;
       }
     },
-    async downloadAsset(uuid, isAnimation, format) {
+    async downloadAsset(uuid, format) {
       try {
         const data = await $fetch(`https://api.iconscout.com/v3/items/${uuid}/api-download`, {
           method: 'POST',
@@ -63,8 +62,8 @@ export const useAssetStore = defineStore('asset', {
             format,
           },
           headers: {
-            'Client-ID': '30774341467952',
-            'Client-Secret': '6Qs4JV3SiEIfHi6Je9iFvPggaeqrhXbw',
+            'Client-ID': useRuntimeConfig().public.iconscoutClientId,
+            'Client-Secret': useRuntimeConfig().public.iconscoutClientSecret,
           },
         });
         return data;

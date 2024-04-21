@@ -13,7 +13,13 @@ export default defineNuxtConfig({
   css: [
     '~/assets/scss/main.scss',
   ],
-  modules: ['@nuxt/eslint', 'nuxt-icon', '@nuxt/image', '@pinia/nuxt'],
+  runtimeConfig: {
+    public: {
+      iconscoutClientId: '',
+      iconscoutClientSecret: '',
+    }
+  },
+  modules: ['@nuxt/eslint', 'nuxt-icon', '@pinia/nuxt'],
   eslint: {
     config: {
       stylistic: true, // <---
