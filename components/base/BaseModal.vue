@@ -30,13 +30,16 @@ const showModal = defineModel({
           <div class="ic-modal__title">
             <slot name="title" />
           </div>
-          <button
-            class="ic-modal__close"
-            @click="showModal = false"
-          >
-            <span class="visually-hidden">Close Modal</span>
-            <Icon name="material-symbols:close-rounded" />
-          </button>
+          <div>
+            <Icon name="carbon:information" />
+            <button
+              class="ic-modal__close"
+              @click="showModal = false"
+            >
+              <span class="visually-hidden">Close Modal</span>
+              <Icon name="material-symbols:close-rounded" />
+            </button>
+          </div>
         </div>
         <div class="ic-modal__body">
           <slot>

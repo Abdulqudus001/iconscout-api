@@ -1,5 +1,6 @@
 <script setup>
 import { useAssetStore } from '~/store/assets';
+const { price } = useFilter();
 
 const assetStore = useAssetStore();
 const { assetList, loadingAssets, loadingType } = storeToRefs(assetStore);
@@ -158,6 +159,7 @@ const downloadWithFileFormat = async (format) => {
           </div>
         </template>
         <button
+          v-if="price !== 'premium'"
           class="asset-download"
           :title="`Download ${asset.name} asset`"
           @click="openFileFormatModal(asset)"

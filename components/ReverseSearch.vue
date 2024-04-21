@@ -54,6 +54,7 @@ const sampleImgs = [
     <template #title>
       <p class="mb-0">
         Search visually similar assets
+        <span class="rounded-chip">Beta</span>
       </p>
     </template>
     <template #default>
@@ -229,6 +230,14 @@ const sampleImgs = [
       margin: 0 auto;
     }
   }
+}
+
+.rounded-chip {
+  color: $tertiary;
+  background-color: rgba($tertiary, 0.1);
+  border-radius: 8px;
+  padding: 2px 8px;
+  font-size: 0.75rem;
 }
 
 .loaded-img {

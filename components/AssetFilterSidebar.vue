@@ -1,4 +1,11 @@
 <script setup>
+const props = defineProps({
+  isNav: {
+    type: Boolean,
+    default: false
+  }
+})
+
 const assetFilterDropdown = reactive({
   assetType: true,
   sortBy: true,
@@ -60,7 +67,7 @@ const isExclusiveChecked = ref(false);
 </script>
 
 <template>
-  <div class="sidebar">
+  <div class="sidebar" :class="{ 'is-nav': props.isNav }">
     <div class="exclusive-toggle">
       <div class="container-fluid">
         <div class="d-flex justify-content-between align-items-center">
@@ -297,6 +304,12 @@ const isExclusiveChecked = ref(false);
         margin-bottom: 0.75rem;
       }
     }
+  }
+
+  &.is-nav {
+    height: calc(100vh - 8.5rem);
+    border-right: none;
+    width: 100%;
   }
 }
 

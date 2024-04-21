@@ -1,30 +1,10 @@
 <script setup>
-import { onClickOutside } from '@vueuse/core';
+const showMobileNav = ref(false)
 
-const header = ref(null);
-const dropdown = ref(null);
-
-onClickOutside(dropdown, () => hideAllDropdowns());
-
-const hideAllDropdowns = () => {
-  document.querySelectorAll('.dropdown-container').forEach((el) => {
-    el.classList.remove('dropdown-container__visible');
-  });
-};
-
-const showNavDropdown = (navItem) => {
-  header.value.classList.add('show-dropdown');
-  const dropdown = document.querySelector(`[data-dropdown=${navItem}]`);
-  const dropdownTarget = document.querySelector(`[data-target=${navItem}]`);
-
-  hideAllDropdowns();
-
-  dropdown.classList.add('dropdown-container__visible');
-
-  const { width } = dropdown.getBoundingClientRect();
-  const transformLeft = dropdownTarget.offsetLeft - (width / 2);
-  dropdown.style.transform = `translateX(${transformLeft}px)`;
-};
+const route = useRoute()
+watch(() => route.fullPath, () => {
+  showMobileNav.value = false
+})
 </script>
 
 <template>
@@ -32,8 +12,21 @@ const showNavDropdown = (navItem) => {
     ref="header"
     class="sticky-header position-relative"
   >
+    <div v-if="showMobileNav">
+      <div class="mobile-nav-backdrop" @click.self="showMobileNav = false">
+        <div class="mobile-nav">
+          <AssetFilterSidebar is-nav />
+        </div>
+      </div>
+    </div>
     <nav class="nav">
       <ul class="nav-menu d-flex align-items-center my-0 w-100">
+        <li class="mobile-hamburger d-lg-none">
+          <button @click="showMobileNav = !showMobileNav">
+            <div class="visually-hidden">Toggle Navbar</div>
+            <Icon name="icon-park-outline:hamburger-button" />
+          </button>
+        </li>
         <li class="nav-item nav-item-home">
           <NuxtLink
             to="/"
@@ -53,7 +46,6 @@ const showNavDropdown = (navItem) => {
           <button
             class="nav-btn has-menu"
             data-target="explore"
-            @click="showNavDropdown('explore')"
           >
             Explore
             <Icon name="material-symbols:keyboard-arrow-down-rounded" />
@@ -61,7 +53,6 @@ const showNavDropdown = (navItem) => {
           <button
             class="nav-btn has-menu"
             data-target="tools"
-            @click="showNavDropdown('tools')"
           >
             Tools
             <Icon name="material-symbols:keyboard-arrow-down-rounded" />
@@ -79,7 +70,6 @@ const showNavDropdown = (navItem) => {
           <button
             class="nav-btn has-menu"
             data-target="learn"
-            @click="showNavDropdown('learn')"
           >
             Learn
             <Icon name="material-symbols:keyboard-arrow-down-rounded" />
@@ -101,29 +91,6 @@ const showNavDropdown = (navItem) => {
       </ul>
       <BaseSearch class="mobile-search" />
     </nav>
-    <div
-      ref="dropdown"
-      class="dropdown"
-    >
-      <div
-        data-dropdown="explore"
-        class="dropdown-container"
-      >
-        This would be for Explore
-      </div>
-      <div
-        data-dropdown="tools"
-        class="dropdown-container"
-      >
-        This would be for tools
-      </div>
-      <div
-        data-dropdown="learn"
-        class="dropdown-container"
-      >
-        This would be for learn
-      </div>
-    </div>
   </header>
 </template>
 
@@ -131,8 +98,28 @@ const showNavDropdown = (navItem) => {
 .sticky-header {
   position: sticky;
   top: 0;
-  z-index: 2;
+  z-index: 3;
   background-color: $white;
+}
+
+.mobile-nav {
+  position: fixed;
+  top: 8.5rem;
+  width: 300px;
+  max-width: 100%;
+  bottom: 0;
+  z-index: 3;
+  background-color: $white;
+
+  &-backdrop {
+    z-index: 1;
+    position: fixed;
+    top: 8.5rem;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: rgba($black, 0.5);
+  }
 }
 
 .nav {
@@ -142,6 +129,22 @@ const showNavDropdown = (navItem) => {
   .nav-menu {
     list-style-type: none;
     padding: 0;
+  }
+
+  .mobile-hamburger {
+    margin-right: 1rem;
+
+    button {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.125rem;
+      border: 1px solid $bg-grey-3;
+      background-color: transparent;
+    }
   }
 
   .nav-item {
@@ -231,28 +234,6 @@ const showNavDropdown = (navItem) => {
       &.nav-item-home {
         margin-right: 0.75rem;
       }
-    }
-  }
-}
-
-.dropdown {
-  &-container {
-    position: absolute;
-    z-index: 5;
-    background-color: $white;
-    box-shadow: 0px 6px 12px -4px rgba(0,0,0,0.08), 0px 20px 24px -4px rgba(0,0,0,0.12);
-    border-radius: 0 0 12px 12px;
-    width: 1000px;
-    height: 500px;
-    opacity: 0;
-    pointer-events: none;
-    will-change: transform;
-    transform: translateX(-100%);
-
-    &__visible {
-      opacity: 1;
-      pointer-events: all;
-      transition: transform, opacity .5s ease;
     }
   }
 }
